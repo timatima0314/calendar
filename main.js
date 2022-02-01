@@ -1,31 +1,62 @@
 Vue.createApp({
     data() {
         return {
-            items: [],
+            january: [],
+            isVisibleRegister: false,
+            isVisibleTodo: false,
+            todoId: '',
             todo: "",
         };
     },
-    methods: {
-        todoAddition: function () {
-            this.items.push(this.todo);
-            // ﾛｰｶﾙストレージにセット
-            localStorage.setItem('mydata', JSON.stringify(this.items));
+    computed: {
+        the31st: function () {
+            if (this.january.length === 0) {
+                for (let i = 0; i < 31; i++) {
+                    let todo = "";
+                    console.log(todo)
+                    this.january.push(todo);
+                };
 
-        },
-        todoDelete: function (index) {
-            this.items.splice(index, 1);
-            // 一度ストレージの値を取り出す
-            let storageItem = JSON.parse(localStorage.getItem('mydata'));
-            storageItem.splice(index, 1);
-            // 削除したのちもう一度セット
-            localStorage.setItem('mydata', JSON.stringify(storageItem));
+            }
         },
     },
-    created: function () {
-        const mydata = localStorage.getItem('mydata');
-        if (mydata) {
-            this.items = JSON.parse(mydata);
+    methods: {
+        register: function () {
+            this.january[this.todoId] = this.todo;
+            localStorage.setItem('todo', JSON.stringify(this.january));
+
+        },
+        openModal: function () {
+            // tentTodoId = event.target.id;
+            this.todoId = parseInt(event.target.id);
+            if (!this.january[this.todoId]) {
+                this.isVisibleRegister = true;
+                console.log(this.todoId);
+            } else {
+                this.isVisibleTodo = true;
+            }
+        },
+        closeModal: function () {
+            this.isVisibleRegister = false;
+            this.isVisibleTodo = false;
+
+            this.todo = "";
+            // this.todoId = "";
+        },
+        todoDelete: function () {
+            this.january[this.todoId] = "";
+            // let storageItem = JSON.parse(localStorage.getItem('todo'));
+            // storageItem.splice(this.todoId,1);
+            localStorage.setItem('todo', JSON.stringify(this.january));
+            this.closeModal();
         }
     },
+    created: function () {
+        const todo = localStorage.getItem('todo');
+        if (todo) {
+            this.january = JSON.parse(todo);
 
+        }
+
+    }
 }).mount('#app')

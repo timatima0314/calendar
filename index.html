@@ -5,22 +5,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>todoアプリ</title>
+    <title>カレンダー</title>
+    <link rel="stylesheet" href="main.css">
+
     <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.js"></script>
 
 </head>
 
 <body>
     <div id="app">
-        <h1>todoアプリ</h1>
-        <input type="text" v-model="todo">
-        <button @click="todoAddition()">登録</button>
+        <h1>カレンダー</h1>
+        <h2>January</h2>
         <ul>
-            <li v-for="(item,index) in items">
-                {{item}}
-                <button @click="todoDelete(index)">削除</button>
+            <li v-for="(item,i) in january" @click="openModal()" :id=i :key="item.No">
+                {{i+1}}日
+                <span v-if="item" class="todoArrive">★</span>
             </li>
         </ul>
+        <!-- todo未登録時のモーダル -->
+        <transition>
+            <div class="modal-overlay" v-show="isVisibleRegister">
+                <div id="modal-content">
+                    <p>{{this.todoId + 1}}日</p>
+                    <input type="text" v-model="todo">
+                    <button @click="register">登録</button>
+                    <p><a id="modal-close" class="button-link" @click="closeModal()">閉じる</a></p>
+                </div>
+            </div>
+        </transition>
+        <!-- todo登録済み時のモーダル -->
+        <transition>
+            <div class="modal-overlay" v-show="isVisibleTodo">
+                <div id="modal-content">
+                    <p>{{this.todoId + 1}}日</p>
+                    <p>{{january[this.todoId]}}</p>
+                    <button @click="todoDelete">削除</button>
+                    <p><a id="modal-close" class="button-link" @click="closeModal()">閉じる</a></p>
+                </div>
+            </div>
+        </transition>
+
     </div>
     <script src="main.js"></script>
 </body>
