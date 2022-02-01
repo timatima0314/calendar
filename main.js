@@ -41,12 +41,9 @@ Vue.createApp({
             this.isVisibleTodo = false;
 
             this.todo = "";
-            // this.todoId = "";
         },
         todoDelete: function () {
             this.january[this.todoId] = "";
-            // let storageItem = JSON.parse(localStorage.getItem('todo'));
-            // storageItem.splice(this.todoId,1);
             localStorage.setItem('todo', JSON.stringify(this.january));
             this.closeModal();
         }
