@@ -8,18 +8,6 @@ Vue.createApp({
             todo: "",
         };
     },
-    computed: {
-        the31st: function () {
-            if (this.january.length === 0) {
-                for (let i = 0; i < 31; i++) {
-                    let todo = "";
-                    console.log(todo)
-                    this.january.push(todo);
-                };
-
-            }
-        },
-    },
     methods: {
         register: function () {
             this.january[this.todoId] = this.todo;
@@ -53,7 +41,19 @@ Vue.createApp({
         if (todo) {
             this.january = JSON.parse(todo);
 
-        }
+        };
+        if (this.january.length === 0) {
+            for (let i = 0; i < 31; i++) {
+                let todo = "";
+                console.log(todo)
+                this.january.push(todo);
+            };
 
-    }
+        };
+
+    },
+
+
+
+
 }).mount('#app')
